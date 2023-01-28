@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Livewire\Transactions;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return redirect()->route('filament.pages.dashboard');
-});
+// Route::get('/', function () {
+//     // return redirect()->route('filament.pages.dashboard');
+//     // return view('welcome');
+//     re
+// });
+Route::get('/', Transactions::class);

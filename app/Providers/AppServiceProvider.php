@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Filament\Notifications\Notification;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +24,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // Notification::configureUsing(function (Notification $notification): void {
+        //     $notification->view('vendor.notifications.notification');
+        // });
     }
 }
