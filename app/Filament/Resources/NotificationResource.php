@@ -16,6 +16,7 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Arr;
 
 class NotificationResource extends Resource
 {
@@ -32,20 +33,29 @@ class NotificationResource extends Resource
                     TextInput::make('data.title')
                         ->label('title'),
                     KeyValue::make('data.body')
-                        ->keyLabel('User Id')
-                        ->valueLabel('New Password')
+                        ->keyLabel('Subject')
+                        ->valueLabel('Details')
                         ->formatStateUsing(function ($state) {
-                            $s = json_decode($state);
-                            if(is_array($s)) {
+                            $decoded = json_decode($state);
+
+                            if(is_array($decoded)) {
+                                if(!isset($decoded[0]->userId)) {
+                                    return $state;
+                                }
+
                                 $d = array();
 
-                                foreach ($s as $index => $value) {
-                                    $d[$value->userId] = $value->password;
+                                foreach ($decoded as $index => $value) {
+                                    $d['User ID: ' . $value->userId] = 'Password: ' . $value->password;
                                 }
 
                                 return $d;
                             } else {
-                                return [$s->userId => $s->password];
+                                if(!isset($decoded->userId)) {
+                                    return ['Transaction ID: ' . $decoded->id => 'Purpose: ' . $decoded->purpose . ' | Course: '. $decoded->course];
+                                }
+
+                                return ['User ID: ' . $decoded->userId => 'Password: ' . $decoded->password];
                             }
                         })
                         ->label('body')
@@ -93,5 +103,10 @@ class NotificationResource extends Resource
             'index' => Pages\ListNotifications::route('/'),
             'view' => Pages\ViewNotification::route('/{record}')
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->where('notifiable_id', auth()->id());
     }
 }

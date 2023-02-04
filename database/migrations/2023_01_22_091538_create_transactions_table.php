@@ -19,9 +19,10 @@ return new class extends Migration
             $table->string('visitor_name');
             $table->string('purpose');
             $table->foreignId('user_id')->constrained();
-            $table->text('note');
-            $table->boolean('served')->default(false);
-            $table->timestamp('served_at');
+            $table->text('note')->nullable();
+            // $table->boolean('served')->default(false);
+            $table->timestamp('served_at')->nullable();
+            // $table->timestamp('served_at');
 
             $table->timestamps();
             $table->softDeletes();

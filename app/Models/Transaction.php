@@ -17,7 +17,7 @@ class Transaction extends Model
         'purpose',
         'user_id',
         'note',
-        'served'
+        'served_at'
     ];
 
     protected static function booted()

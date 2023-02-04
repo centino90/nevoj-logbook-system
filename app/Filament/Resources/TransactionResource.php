@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Resources\Filters\ServedFilter;
 use App\Filament\Resources\Filters\TrashedFilter;
 use App\Filament\Resources\TransactionResource\Pages;
 use App\Filament\Resources\TransactionResource\RelationManagers;
@@ -55,7 +56,7 @@ class TransactionResource extends Resource
                 })
                 ->preload(true)
                 ->required(),
-                Toggle::make('served')
+                Toggle::make('served_at')
                 ->label('Served'),
                 Textarea::make('note')
                 ->label('Note')
@@ -71,34 +72,31 @@ class TransactionResource extends Resource
                 ->dateTime('M-d-y g:i:s A')
                 ->sortable()
                 ->label('Creation Date'),
-                IconColumn::make('served')
+                IconColumn::make('served_at')
                 ->options([
-                    'heroicon-o-x-circle',
-                    'heroicon-o-check-circle' => 1,
+                    'heroicon-o-x-circle' => fn ($served_at) => empty($served_at),
+                    'heroicon-o-check-circle' => fn ($served_at) => !empty($served_at),
                 ])
                 ->colors([
-                    'secondary',
-                    'success' => 1,
-                ]),
+                    'secondary' => fn ($served_at) => empty($served_at),
+                    'success' => fn ($served_at) => !empty($served_at),
+                ])
+                ->label('Served'),
                 TextColumn::make('course')
-                ->label('Course'),
+                ->label('Course')
+                ->searchable(),
                 TextColumn::make('visitor_name')
                 ->sortable()
+                ->searchable()
                 ->label('Visitor Name'),
                 TextColumn::make('purpose')
-                ->label('Purpose'),
-                TextColumn::make('user.name')
-                ->label('Professor Concerned')
-                ->sortable()
+                ->label('Purpose')
+                ->searchable()
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([
-                SelectFilter::make('served')
+                ServedFilter::make('served_at')
                 ->label('Served records')
-                ->options([
-                    '1' => 'Only Served',
-                    '0' => 'Without Served'
-                ])
                 ->default(0),
                 TrashedFilter::make()
             ])
@@ -136,5 +134,10 @@ class TransactionResource extends Resource
             // 'create' => Pages\CreateTransaction::route('/create'),
             'edit' => Pages\EditTransaction::route('/{record}/edit'),
         ];
+    }
+
+    protected static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::where('served_at', null)->count();
     }
 }

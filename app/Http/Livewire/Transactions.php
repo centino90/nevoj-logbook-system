@@ -14,6 +14,7 @@ class Transactions extends Component implements Tables\Contracts\HasTable
 {
     use Tables\Concerns\InteractsWithTable;
 
+    protected $listeners = ['refreshTransactions' => 'render'];
 
     protected $queryString = [
         'tableFilters',
@@ -113,10 +114,10 @@ class Transactions extends Component implements Tables\Contracts\HasTable
         return 'You may create a post using the button below.';
     }
 
-protected function getTablePollingInterval(): ?string
-{
-    return '10s';
-}
+    protected function getTablePollingInterval(): ?string
+    {
+        return '10s';
+    }
 
     public function render(): View
     {

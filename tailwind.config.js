@@ -10,6 +10,8 @@ module.exports = {
         './resources/views/**/*.blade.php',
         './resources/**/*.blade.php',
         './vendor/filament/**/*.blade.php',
+        './vendor/livewire-ui/modal/resources/views/*.blade.php',
+        "./vendor/wire-elements/modal/src/ModalComponent.php"
     ],
     darkMode: 'class',
     theme: {
@@ -25,6 +27,5 @@ module.exports = {
             },
         },
     },
-
     plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
 };
