@@ -27,6 +27,10 @@ To intall the npm packages you need to run this command:
 To refresh app key you need to run this command:
 - `php artisan key:generate`
 
+### Migrate tables and seed
+To migrate and seed you need to run this command:
+- `php artisan migrate:fresh --seed`
+
 ### Start app
 To start the app you need to run this command:
 - `./start.sh`
