@@ -26,6 +26,10 @@ class Transactions extends Component implements Tables\Contracts\HasTable
 
     public function mount(): void
     {
+        if(auth()->check()) {
+            redirect()->route('filament.pages.dashboard');
+        }
+
         $this->form->fill();
     }
 
@@ -86,7 +90,7 @@ class Transactions extends Component implements Tables\Contracts\HasTable
 
     protected function isTablePaginationEnabled(): bool
     {
-        return false;
+        return true;
     }
 
     protected function getTableRecordsPerPageSelectOptions(): array
@@ -101,17 +105,17 @@ class Transactions extends Component implements Tables\Contracts\HasTable
 
     protected function getTableEmptyStateIcon(): ?string
     {
-        return 'heroicon-o-bookmark';
+        return 'heroicon-o-collection';
     }
 
     protected function getTableEmptyStateHeading(): ?string
     {
-        return 'No posts yet';
+        return 'No transactions yet';
     }
 
     protected function getTableEmptyStateDescription(): ?string
     {
-        return 'You may create a post using the button below.';
+        return 'You may create a transaction using the button above.';
     }
 
     protected function getTablePollingInterval(): ?string

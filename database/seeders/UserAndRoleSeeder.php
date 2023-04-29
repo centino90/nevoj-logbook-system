@@ -31,7 +31,7 @@ class UserAndRoleSeeder extends Seeder
             $professorRole = Role::create(['name' => 'professor', 'guard_name' => 'web']);
         }
 
-        // CREATE 1 ADMIN and 2 PROFESSOR USERS
+        // CREATE 1 ADMIN and 5 PROFESSOR USERS
 
         if(User::whereHas('roles', function($q) {
             $q->where('name', 'admin');
@@ -58,6 +58,27 @@ class UserAndRoleSeeder extends Seeder
             User::create([
                 'name' => 'professor two',
                 'email' => 'professor2@test.com',
+                'email_verified_at' => now(),
+                'password' => Hash::make('password'),
+                'remember_token' => Str::random(10),
+            ])->assignRole($professorRole);
+            User::create([
+                'name' => 'professor three',
+                'email' => 'professor3@test.com',
+                'email_verified_at' => now(),
+                'password' => Hash::make('password'),
+                'remember_token' => Str::random(10),
+            ])->assignRole($professorRole);
+            User::create([
+                'name' => 'professor four',
+                'email' => 'professor4@test.com',
+                'email_verified_at' => now(),
+                'password' => Hash::make('password'),
+                'remember_token' => Str::random(10),
+            ])->assignRole($professorRole);
+            User::create([
+                'name' => 'professor five',
+                'email' => 'professor5@test.com',
                 'email_verified_at' => now(),
                 'password' => Hash::make('password'),
                 'remember_token' => Str::random(10),

@@ -9,7 +9,9 @@
         {{ __('filament::login.buttons.submit.label') }}
     </x-filament::hr>
 
-    <x-filament::link href="/">
-        Go back to transactions
-    </x-filament::link>
+    <center>
+        <x-filament::link href="/">
+            Go back to logs
+        </x-filament::link>
+    </center>
 </form>
